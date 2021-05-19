@@ -1,0 +1,27 @@
+:host {
+    padding: 20px;
+    background-color: rgb(73, 73, 75);
+}
+
+.sidebar-btn {
+    transition-duration: 0.4s;
+    margin: 5px;
+    width: 120px;
+    text-align: justify;
+    border: 2px solid rgb(71, 98, 107);
+}
+
+.navigation-menu a {
+    width: 100%;
+}
+
+.navigation-menu.active {
+    background-color: gray;
+}
+
+H3 {
+    background-color: rgb(71, 98, 107);
+    border: black;
+    text-align: center;
+    color: white;
+}

@@ -1,0 +1,71 @@
+<div class="modal fade" [ngClass]="{'show': displayModal}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="displayModal = false" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" [formGroup]="projectform" name="projectform">
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="projectName">New Project Name *</label>                     
+                        <input formControlName="projectName" [ngClass]="{'is-invalid': submitted && h.projectName.errors }"
+                            type="text"  name="projectName" id="projectName"
+                            class="form-control" placeholder="Provide project name" />
+                        <div *ngIf="h.projectName.touched && h.projectName.errors" class="text-danger">
+                            <div *ngIf="h.projectName.errors.required">
+                                Project name is requried
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="projectdescription">Project Description *</label>
+                        <input formControlName="projectdescription"
+                            [ngClass]="{'is-invalid': submitted && h.projectdescription.errors }" type="text"
+                            name="projectdescription" id="projectdescription"
+                            class="form-control" placeholder="Provide project description" />
+                        <div *ngIf="h.projectdescription.touched && h.projectdescription.errors" class="text-danger">
+                            <div *ngIf="h.projectdescription.errors.required">
+                                Project Description is requried
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" formControlName="projectId" name="projectId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveProject()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-10 col-md-10">
+    <button type="button" class="btn btn-primary add-Project" (click)="refreshModel();displayModal = true">
+        Add Project
+    </button>
+</div>
+<br />
+<div class="col-lg-10 col-md-10  data-table table-bordered">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hovers">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let project of projects; let i = index" class="detp-{{project.projectId}}">
+                <td>{{i+1}}</td>
+                <td>{{project.name}}</td>
+                <td><span (click)="loadProject(project.projectId); displayModal = true" class="fas fa-edit"></span> |
+                    <span (click)="deleteProject(project.projectId, project.name, i)" class="fas fa-trash"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

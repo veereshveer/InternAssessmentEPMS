@@ -1,0 +1,104 @@
+<div class="modal fade" [ngClass]="{'show': logInModel}">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employee Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="logInModel = false" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="employeeUserName"> Employee UserName *</label>
+                        <input type="text" [(ngModel)]="employeeUserName" name="employeeUserName" id="employeeUserName"
+                            class="form-control"  placeholder="Provide Employee User Name" />
+                    </div>
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="employeePassword">Employee PassWord *</label>
+                        <input type="text" [(ngModel)]="employeePassword" name="employeePassword" id="employeePassword"
+                            class="form-control" placeholder="Provide employee password"/>
+                    </div>
+                    <input type="hidden" [(ngModel)]="employeeId" name="employeeId" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="logInModel = false">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="saveLogIn()">Save</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" [ngClass]="{'show': displayModal}">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="displayModal = false" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="employeename">New Employee Name *</label>
+                        <input type="text" [(ngModel)]="employeeName" name="employeename" id="employeename"
+                            class="form-control" placeholder="Provide full name of the Employee"/>
+                    </div>
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <label class="control-label" for="employeeEmail">Employee emailId *</label>
+                        <input type="text" [(ngModel)]="employeeEmail" name="employeeEmail" id="employeeEmail"
+                            class="form-control" maxlength="128" placeholder="Provide description" />
+                    </div>
+                    <div class="form-group col-xs-12 col-md-12 col-lg-12">
+                        <h6>Select Project</h6>
+                        <ng-multiselect-dropdown [placeholder]="'Select projects'" [settings]="dropdownSettings"
+                            [data]="dropdownList" [(ngModel)]="selectedItems" >
+                        </ng-multiselect-dropdown>
+                    </div>
+                    <div class=" col-xs-12 col-md-12 col-lg-12">
+                        <h6>Select Department</h6>
+                        <select class="browser-default custom-select"name="deptSelected" [(ngModel)]="deptSelected" 
+                            id="deptSelected" >
+                            <label >Select Department</label>
+                            <option *ngFor="let deptOptions of deptlist;" value="{{deptOptions.deptId}}">
+                                {{deptOptions.name}}</option>
+                        </select>
+                    </div>
+                    <input type="hidden" [(ngModel)]="employeeId" name="employeeId" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="displayModal = false">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="saveEmployee()">Save</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<div class="col-lg-10 col-md-10">
+    <button type="button" class="btn btn-primary add-employee" (click)="refreshModel();displayModal = true">
+        Add Employee
+    </button>
+</div>
+<br />
+<div class="col-lg-10 col-md-10  data-table table-bordered">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hovers">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employees; let i = index" class="emp-{{employee.empId}}">
+                <td>{{i+1}}</td>
+                <td>{{employee.fullName}}</td>
+                <td>
+                    <span (click)="loadEmployee(employee.empId); displayModal = true" class="fas fa-edit"></span> |
+                    <span (click)="deleteEmployee(employee.empId, employee.fullName, i)" class="fas fa-trash"></span> | |
+                    <span (click)="loadLogIn(employee.empId); logInModel = true" class="fas fa-edit"></span> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
